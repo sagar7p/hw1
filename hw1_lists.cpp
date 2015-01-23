@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 
+//cool
 using namespace std;
 
 struct Item {
@@ -16,8 +17,8 @@ Item* concatenate(Item* head1, Item* head2);  // returns head pointer to new lis
 void removeEvens(Item*& head); // removes Events
 double findAverage(Item* head); // Finds average from remaining
 void printList(std::ostream& ofile, Item* head); //pritns to a file
-void readLists(Item*& head1, Item*& head2, ifstream & input); //reads from file
-void del(Item* head);
+void readLists(Item*& head1, Item*& head2, ifstream & input); // reads from file
+void del(Item* head); // deletes Items in a linked list
 
 int main(int argc, char *argv[]) {
   //define the inputs and heads
@@ -46,6 +47,7 @@ int main(int argc, char *argv[]) {
 }
 
 void del(Item * head){
+  // go through each item and recursively delete them
    Item * next;
    if(head == NULL)
        return;
@@ -57,7 +59,7 @@ void del(Item * head){
 }
 
 
-//goes through the hend
+//goes through the head and copies items from a linked list to another
 Item* traverse(Item * src, Item * dest) {
    if(src == NULL)
       return dest;
@@ -71,13 +73,27 @@ Item* traverse(Item * src, Item * dest) {
 
 //combines two lists
 Item* concatenate(Item* head1, Item* head2) {
-  Item * head3 = new Item(head1->val, NULL);
-  Item * head4 = head3;
+  Item * head4 = NULL;
+  Item * head3 = NULL;
+  if(head1)
+  {
+      head3 = new Item(head1->val, NULL);
+      head4 = head3;
+      head3 = traverse(head1,head3);
+  }
 
-  head3 = traverse(head1,head3);
-  head3 -> next = new Item(head2->val,NULL);
-  head3 = head3 -> next;
-  head3 = traverse(head2,head3);
+  if(head2)
+  {
+      if(!head1) {
+        head3 = new Item(head2->val,NULL);
+        head4 = head3;
+      }
+      else {
+         head3 -> next = new Item(head2->val,NULL);
+         head3 = head3 -> next;
+      }
+      head3 = traverse(head2,head3);
+  }
 
   return head4;
 
@@ -114,6 +130,8 @@ void even(Item * current){
 
 //fnction that calls even function and checks first value
 void removeEvens(Item*& head) {
+  if(head == NULL)
+    return;
   if(head -> val % 2 == 0) {
     if(head -> next != NULL) {
         Item * newhead = head -> next;
