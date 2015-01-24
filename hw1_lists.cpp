@@ -168,8 +168,7 @@ double findAverage(Item* head) {
 }
 
 //print the info to a file
-void printList(std::ostream& ofile, Item* head)
-{
+void printList(std::ostream& ofile, Item* head) {
   if(head == NULL)
     ofile << std::endl;
   else {
